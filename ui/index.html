@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatterbox</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>Chatterbox</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="tts">
+                    <span class="icon">🎙️</span>
+                    <span>Text-to-Speech</span>
+                </button>
+                <button class="nav-item" data-view="settings">
+                    <span class="icon">⚙️</span>
+                    <span>Settings</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- TTS View -->
+            <div id="tts-view" class="view active">
+                <div class="view-header">
+                    <h2>Text-to-Speech</h2>
+                </div>
+
+                <div class="content-scroll">
+                    <div class="section">
+                        <label class="section-label">Text to Synthesize</label>
+                        <textarea id="tts-text" class="text-input" rows="5" placeholder="Enter the text you want to convert to speech...">Oh, that's hilarious! [chuckle] Um anyway, we do have a new model in store.</textarea>
+                        
+                        <div class="tag-container">
+                            <button class="tag-btn" data-tag="[clear throat]">[clear throat]</button>
+                            <button class="tag-btn" data-tag="[sigh]">[sigh]</button>
+                            <button class="tag-btn" data-tag="[shush]">[shush]</button>
+                            <button class="tag-btn" data-tag="[cough]">[cough]</button>
+                            <button class="tag-btn" data-tag="[groan]">[groan]</button>
+                            <button class="tag-btn" data-tag="[sniff]">[sniff]</button>
+                            <button class="tag-btn" data-tag="[gasp]">[gasp]</button>
+                            <button class="tag-btn" data-tag="[chuckle]">[chuckle]</button>
+                            <button class="tag-btn" data-tag="[laugh]">[laugh]</button>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <label class="section-label">Reference Audio (Optional)</label>
+                        <div class="file-input-container">
+                            <input type="file" id="ref-audio" accept="audio/*" style="display: none;">
+                            <button id="ref-audio-btn" class="secondary-btn">Choose Reference Audio...</button>
+                            <span id="ref-audio-name" class="file-name"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="model-select">Model</label>
+                            <select id="model-select" class="select-input">
+                                <option value="turbo">Chatterbox-Turbo (English)</option>
+                                <option value="multilingual">Chatterbox-Multilingual</option>
+                                <option value="standard">Chatterbox (English)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="language-group" style="display: none;">
+                            <label for="language-select">Language</label>
+                            <select id="language-select" class="select-input">
+                                <option value="en">English</option>
+                                <option value="de">German</option>
+                                <option value="fr">French</option>
+                                <option value="es">Spanish</option>
+                                <option value="it">Italian</option>
+                                <option value="pt">Portuguese</option>
+                                <option value="zh">Chinese</option>
+                                <option value="ja">Japanese</option>
+                                <option value="ko">Korean</option>
+                                <option value="ar">Arabic</option>
+                                <option value="ru">Russian</option>
+                                <option value="hi">Hindi</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="output-format">Output Format</label>
+                            <select id="output-format" class="select-input">
+                                <option value="mp3">MP3</option>
+                                <option value="wav">WAV</option>
+                                <option value="ogg">OGG</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="filename">Output Filename</label>
+                            <input type="text" id="filename" class="text-input" placeholder="auto-generated">
+                        </div>
+                    </div>
+
+                    <!-- Advanced Parameters -->
+                    <details class="accordion">
+                        <summary class="accordion-header">Advanced Parameters</summary>
+                        <div class="accordion-content">
+                            <div class="slider-group">
+                                <label for="temperature">Temperature: <span id="temperature-value">0.80</span></label>
+                                <input type="range" id="temperature" min="0.05" max="2.0" step="0.05" value="0.80" class="slider">
+                            </div>
+
+                            <div class="slider-group">
+                                <label for="top-p">Top P: <span id="top-p-value">0.95</span></label>
+                                <input type="range" id="top-p" min="0.0" max="1.0" step="0.01" value="0.95" class="slider">
+                            </div>
+
+                            <div class="slider-group">
+                                <label for="top-k">Top K: <span id="top-k-value">1000</span></label>
+                                <input type="range" id="top-k" min="0" max="1000" step="10" value="1000" class="slider">
+                            </div>
+
+                            <div class="slider-group">
+                                <label for="repetition-penalty">Repetition Penalty: <span id="repetition-penalty-value">1.20</span></label>
+                                <input type="range" id="repetition-penalty" min="1.0" max="2.0" step="0.05" value="1.20" class="slider">
+                            </div>
+
+                            <div class="slider-group">
+                                <label for="min-p">Min P: <span id="min-p-value">0.00</span></label>
+                                <input type="range" id="min-p" min="0.0" max="1.0" step="0.01" value="0.00" class="slider">
+                            </div>
+
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="norm-loudness" checked>
+                                    <span>Normalize Loudness (-27 LUFS)</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="seed">Random Seed (0 for random)</label>
+                                <input type="number" id="seed" class="text-input" value="0" min="0">
+                            </div>
+                        </div>
+                    </details>
+
+                    <div class="section">
+                        <button id="generate-btn" class="primary-btn">Generate Audio</button>
+                        <div id="status" class="status-message"></div>
+                    </div>
+
+                    <div class="section" id="output-section" style="display: none;">
+                        <label class="section-label">Generated Audio</label>
+                        <audio id="output-audio" controls></audio>
+                        <button id="save-btn" class="secondary-btn" style="margin-top: 10px;">Save Audio File</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings View -->
+            <div id="settings-view" class="view">
+                <div class="view-header">
+                    <h2>Settings</h2>
+                </div>
+
+                <div class="content-scroll">
+                    <div class="section">
+                        <h3 class="section-title">General</h3>
+                        
+                        <div class="form-group">
+                            <label for="models-path">Models Download Path</label>
+                            <div class="path-input-container">
+                                <input type="text" id="models-path" class="text-input" readonly aria-label="Models download path (readonly, use Browse button to change)">
+                                <button id="browse-models-path" class="secondary-btn">Browse...</button>
+                            </div>
+                            <small class="help-text">Location where TTS models will be downloaded</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="theme-select">Theme</label>
+                            <select id="theme-select" class="select-input">
+                                <option value="auto">Auto (System)</option>
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ui-language">UI Language</label>
+                            <select id="ui-language" class="select-input">
+                                <option value="en">English</option>
+                                <option value="de">Deutsch</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">Python Environment</h3>
+                        
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="use-venv" checked>
+                                <span>Use isolated virtual environment (recommended)</span>
+                            </label>
+                        </div>
+
+                        <div id="venv-path-group" class="form-group">
+                            <label for="venv-path">Virtual Environment Path</label>
+                            <input type="text" id="venv-path" class="text-input" readonly aria-label="Virtual environment path (readonly)">
+                            <small class="help-text">Isolated Python environment for Chatterbox</small>
+                        </div>
+
+                        <div class="form-group">
+                            <button id="install-deps-btn" class="secondary-btn">Install/Update Dependencies</button>
+                            <div id="install-status" class="status-message"></div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">About</h3>
+                        <p class="about-text">
+                            Chatterbox TTS<br>
+                            Version 0.1.0<br>
+                            <br>
+                            Made with ♥️ by Resemble AI
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

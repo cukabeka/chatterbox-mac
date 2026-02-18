@@ -1,0 +1,30 @@
+{
+  "name": "chatterbox-mac",
+  "version": "1.0.0",
+  "description": "![Chatterbox Turbo Image](./Chatterbox-Turbo.jpg)",
+  "main": "index.js",
+  "scripts": {
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "setup": "./scripts/setup.sh",
+    "dev": "./scripts/run-dev.sh",
+    "build:macos": "./scripts/build-macos.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cukabeka/chatterbox-mac.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cukabeka/chatterbox-mac/issues"
+  },
+  "homepage": "https://github.com/cukabeka/chatterbox-mac#readme",
+  "devDependencies": {
+    "@tauri-apps/api": "^2.10.1",
+    "@tauri-apps/cli": "^2.10.0"
+  }
+}
