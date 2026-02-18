@@ -29,7 +29,13 @@ app = FastAPI(title="Chatterbox Backend")
 # Enable CORS for Tauri frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Tauri apps
+    allow_origins=[
+        "tauri://localhost",
+        "http://tauri.localhost",
+        "https://tauri.localhost",
+        "http://localhost",
+        "http://127.0.0.1"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

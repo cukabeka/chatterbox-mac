@@ -112,7 +112,12 @@ function setupEventListeners() {
         const slider = document.getElementById(id);
         const valueSpan = document.getElementById(`${id}-value`);
         slider.addEventListener('input', (e) => {
-            valueSpan.textContent = parseFloat(e.target.value).toFixed(2);
+            // For top-k, show as integer, for others show 2 decimal places
+            if (id === 'top-k') {
+                valueSpan.textContent = e.target.value;
+            } else {
+                valueSpan.textContent = parseFloat(e.target.value).toFixed(2);
+            }
         });
     });
     

@@ -48,7 +48,7 @@
         "removeFile": true,
         "renameFile": true,
         "exists": true,
-        "scope": ["$APP/**", "$RESOURCE/**", "$HOME/**"]
+        "scope": ["$APP/**", "$RESOURCE/**", "$HOME/chatterbox-models/**", "$HOME/Downloads/**", "$HOME/Documents/**", "$HOME/Music/**"]
       },
       "path": {
         "all": true
